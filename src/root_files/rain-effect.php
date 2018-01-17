@@ -7,7 +7,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class Rain_Rain-effect {
+class Rain_Rain_effect {
 	
 	const VERSION = 'taskRunner_set_version';
 	const DB_VERSION = 0;			// int	increase the number if the database needs an update
@@ -234,8 +234,8 @@ class Rain_Rain-effect {
  
 }
 
-global $rain_rain-effect;
-$rain_rain-effect = new Rain_Rain-effect();
+global $rain_rain_effect;
+$rain_rain_effect = new Rain_Rain_effect();
 
 
 

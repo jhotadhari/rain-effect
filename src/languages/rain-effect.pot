@@ -1,0 +1,92 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the rain-effect package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: rain-effect 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-19 10:40+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/inc/fun/autoload/class-rain_customizer.php:137
+msgid "Use Rain Effect for Header Image"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:165
+msgid "Footer Media"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:166
+msgid "Customize the Footer"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:191
+msgid "Footer Image"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:200
+#: src/inc/fun/autoload/class-rain_customizer.php:205
+msgid "Select Footer Image"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:201
+msgid "Change Footer Image"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:202
+msgid "Remove"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:203
+msgid "Default"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:204
+msgid "No Footer Image selected"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:206
+msgid "Choose Footer Image"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:229
+msgid "Use Rain Effect for Footer Image"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:255
+msgid "Hook the Footer Image into wp_footer."
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:256
+msgid "You can also use the template tags:"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:289
+msgid "Rain Effect"
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:291
+msgid ""
+"The rain effect script will be loaded when the option for the header or "
+"footer image is set."
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:292
+msgid ""
+"The script will apply the effect on every element with class=\"rain-effect\"."
+msgstr ""
+
+#: src/inc/fun/autoload/class-rain_customizer.php:310
+msgid ""
+"Load rain effect script everytime. Even when not applied for header or "
+"footer image."
+msgstr ""
