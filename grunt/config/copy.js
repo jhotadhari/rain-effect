@@ -21,6 +21,13 @@ module.exports = {
 		dest: '<%= dest_path %>/fonts/'	
 	},
 	
+	jsTemplates: {		
+		expand: true,
+		cwd: 'src/jsTemplates/',
+		src: ['**/*', '<%= pattern.global_exclude %>'],
+		dest: '<%= dest_path %>/inc/jsTemplates/'	
+	},	
+	
 	root_files: {		
 		expand: true,
 		cwd: 'src/root_files/',

@@ -62,6 +62,17 @@ module.exports = {
 		]
 	},
 	
+	jsTemplates: {
+		files: [
+			'src/jsTemplates/**/*',
+			'<%= pattern.global_exclude %>',
+		],
+		tasks: [
+			'copy:jsTemplates',
+			'local_sync:<%= local_sync.wp_install %>'
+		]
+	},
+	
 	readme: {
 		files: [
 			'src/readme/**/*',
@@ -96,11 +107,22 @@ module.exports = {
 		],
 		tasks: [
 			'jshint',
-			'uglify:ugyly',
-			'uglify:beauty',
+			'uglify:ugly',
+			// 'uglify:beauty',
 			'local_sync:<%= local_sync.wp_install %>:<%= local_sync.version %>'
 		]
 	},
+	commonJS: {
+		files: [
+			'src/commonJS/**/*.js',
+			'<%= pattern.global_exclude %>',
+		],
+		tasks: [
+			'jshint:commonJS',
+			'browserify:all',
+			'local_sync:<%= local_sync.wp_install %>:<%= local_sync.version %>'
+		]
+	},	
 	
 	styles: {
 		files: [

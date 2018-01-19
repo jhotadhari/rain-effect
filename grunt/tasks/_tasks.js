@@ -30,8 +30,9 @@ module.exports = function(grunt){
 				
 			// js
 			'jshint',
-			'uglify:ugyly',
-			'uglify:beauty',
+			'uglify:ugly',
+			// 'uglify:beauty',
+			'browserify',
 			
 			// style
 			'sass:main',

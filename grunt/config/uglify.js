@@ -1,6 +1,6 @@
 
 module.exports = {
-	ugyly: {
+	ugly: {
 		options: {
 			mangle: true,
 			compress: true,
@@ -9,7 +9,9 @@ module.exports = {
 		files: [{
 			expand: true,
 			cwd: 'src/js',
-			src: '**/*.js',
+			src: [
+				'**/*.js',
+			],
 			dest: '<%= dest_path %>/js',
 			rename: function (dst, src) {
 				return dst + '/' + src.replace('.js', '.min.js').replace('noLint/', '');
@@ -25,7 +27,9 @@ module.exports = {
 		files: [{
 			expand: true,
 			cwd: 'src/js',
-			src: '**/*.js',
+			src: [
+				'**/*.js',
+			],
 			dest: '<%= dest_path %>/js',
 			rename: function (dst, src) {
 				return dst + '/' + src.replace('noLint/', '');
