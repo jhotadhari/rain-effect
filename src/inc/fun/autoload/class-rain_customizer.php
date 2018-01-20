@@ -14,10 +14,6 @@ if ( ! defined( 'WPINC' ) ) {
 // advanced-controls
 // https://code.tutsplus.com/tutorials/a-guide-to-the-wordpress-theme-customizer-advanced-controls--wp-33461
 
-
-// how to load scripts again on frontend
-// https://florianbrinkmann.com/en/3790/selective-refresh-customizer/
-
 // customizer add-ons and wrappers
 // https://github.com/lucatume/wp-customizer/tree/master/src
 

@@ -16,7 +16,8 @@ module.exports = {
 		
         options: {
            transform: [
-           	   ['babelify', {presets: ['es2015']}],
+           	   [ 'babelify', {presets: ['es2015']}],
+           	   [ 'glslify' ],
            	   [ 'uglifyify' ],
            	   [ 'browserify-shim', {global: true}]
            ],
