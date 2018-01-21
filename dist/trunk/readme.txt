@@ -1,3 +1,17 @@
+=== Rain Effect ===
+Tags: 
+Donate link: 
+Contributors: jhotadhari
+Tested up to: 4.9
+Requires at least: 4.7
+Requires PHP: 5.6
+Stable tag: trunk
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Let it rain
+
+
 == Description ==
 
 Apply a rain effect to your images using WebGL.
@@ -29,3 +43,9 @@ And go to 'Appearance' -> 'Customize'
 == Upgrade Notice ==
 
 This Plugin is still in early development. Reality might be in movement.
+
+== Changelog ==
+
+0.0.1
+first working version
+
