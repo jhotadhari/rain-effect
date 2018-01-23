@@ -1,11 +1,10 @@
-
 module.exports = {
 	ugly: {
 		options: {
 			mangle: true,
 			compress: true,
 			beautify: false,
-		},		
+		},
 		files: [{
 			expand: true,
 			cwd: 'src/js',
@@ -15,7 +14,7 @@ module.exports = {
 			dest: '<%= dest_path %>/js',
 			rename: function (dst, src) {
 				return dst + '/' + src.replace('.js', '.min.js').replace('noLint/', '');
-			}			
+			}
 		}]
 	},
 	beauty: {
@@ -23,7 +22,7 @@ module.exports = {
 			mangle: false,
 			compress: false,
 			beautify: true,
-		},		
+		},
 		files: [{
 			expand: true,
 			cwd: 'src/js',
@@ -33,8 +32,8 @@ module.exports = {
 			dest: '<%= dest_path %>/js',
 			rename: function (dst, src) {
 				return dst + '/' + src.replace('noLint/', '');
-			}			
+			}
 		}]
-	},	
+	},
 
 };

@@ -11,9 +11,9 @@ module.exports = {
 			dest: '<%= dest_path %>/js',
 			rename: function (dst, src) {
 				return dst + '/' + src.replace('.js', '.min.js');
-			}			
-		}],	
-		
+			}
+		}],
+
         options: {
            transform: [
            	   [ 'babelify', {presets: ['es2015']}],
@@ -23,7 +23,7 @@ module.exports = {
            ],
            browserifyOptions: {
            	   // debug: true,
-           }           
+           }
         },
 	}
 };

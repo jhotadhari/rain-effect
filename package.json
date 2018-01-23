@@ -5,7 +5,7 @@
   "uri": "http://example.com/rain-effect",
   "textDomain": "rain-effect",
   "domainPath": "/languages",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Let it rain",
   "main": "index.js",
   "scripts": {

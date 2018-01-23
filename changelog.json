@@ -2,6 +2,9 @@
   "next": [
     ""
   ],
+  "0.0.2": [
+    "fix: thumbnail ajax request for non logged in users"
+  ],
   "0.0.1": [
     "first working version"
   ]
