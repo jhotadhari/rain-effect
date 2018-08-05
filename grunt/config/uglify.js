@@ -1,5 +1,27 @@
+'use strict';
+
+const files = [{
+	expand: true,
+	cwd: 'src/js',
+	src: [
+		'**/*.js',
+	],
+	dest: '<%= dest_path %>/js',
+	rename: function (dst, src) {
+		return dst + '/' + src.replace('.js', '.min.js').replace('noLint/', '');
+	}
+}];
+
 module.exports = {
-	ugly: {
+	dist: {
+		options: {
+			mangle: true,
+			compress: true,
+			beautify: false,
+		},
+		files,
+	},
+	dest: {
 		options: {
 			mangle: true,
 			compress: true,
@@ -7,33 +29,20 @@ module.exports = {
 		},
 		files: [{
 			expand: true,
-			cwd: 'src/js',
+			cwd: '<%= dest_path %>/js',
 			src: [
 				'**/*.js',
 			],
 			dest: '<%= dest_path %>/js',
-			rename: function (dst, src) {
-				return dst + '/' + src.replace('.js', '.min.js').replace('noLint/', '');
-			}
 		}]
 	},
-	beauty: {
+	debug: {
 		options: {
 			mangle: false,
 			compress: false,
 			beautify: true,
 		},
-		files: [{
-			expand: true,
-			cwd: 'src/js',
-			src: [
-				'**/*.js',
-			],
-			dest: '<%= dest_path %>/js',
-			rename: function (dst, src) {
-				return dst + '/' + src.replace('noLint/', '');
-			}
-		}]
+		files,
 	},
 
 };

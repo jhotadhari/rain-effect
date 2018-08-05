@@ -1,5 +1,5 @@
-var $ = require('jQuery');
-var _ = require('_');
+var $ = require('jquery');
+var _ = require('underscore');
 
 import RainRenderer from './rain_effect_loader/rain-renderer';
 import Raindrops from './rain_effect_loader/raindrops';
@@ -124,7 +124,9 @@ class RainImage {
 			'action': 'rain_thumbnail',
 			'srcFull': this.el.src
 		} ).done( function( response ){
+
 			response = $.parseJSON( response );
+
 			if ( ! response.hasOwnProperty('srcThumbnail') ) { return; }
 			loadImages([
 				{ name:'foreground', src: response.srcThumbnail },

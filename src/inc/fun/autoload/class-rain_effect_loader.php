@@ -55,13 +55,25 @@ class Rain_Effect_Loader {
 		if ( ! array_key_exists( 'srcFull', $_POST ) || ! is_string( $_POST['srcFull']) )
 			$this->_ajax_return( new WP_Error( 'rain-effect-something-missing', __( 'rain-effect-something-missing ???', 'rain-effect' ) ) );
 
-		$attachment_id = $this->get_attachment_id( $_POST['srcFull'] );
+		$url = $_POST['srcFull'];
+		$attachment_id = $this->get_attachment_id( $url );
 
 		if ( $attachment_id === 0 )
 			$this->_ajax_return( new WP_Error( 'rain-effect-thumbnail-not-found', __( 'rain-effect-thumbnail-not-found ???', 'rain-effect' ) ) );
 
+		$srcThumbnail = wp_get_attachment_image_src( $attachment_id, 'thumbnail', false )[0];
+
+		if ( strpos( $url, 'https' ) === 0 ){
+			// if url starts with 'https'
+			$from = '/'.preg_quote( 'http', '/').'/';
+			$srcThumbnail = strpos( $srcThumbnail, 'https' ) !== 0 ? preg_replace( $from, 'https', $srcThumbnail, 1) : $srcThumbnail;
+		} elseif ( strpos( $url, 'http' ) === 0 ){
+			// if url starts with 'http'
+			$from = '/'.preg_quote( 'https', '/').'/';
+			$srcThumbnail = strpos( $srcThumbnail, 'https' ) !== 0 ? preg_replace( $from, 'http', $srcThumbnail, 1) : $srcThumbnail;
+		}
 		$response = array(
-			'srcThumbnail' => wp_get_attachment_image_src( $attachment_id, 'thumbnail', false )[0]
+			'srcThumbnail' => $srcThumbnail
 		);
 
 		$this->_ajax_return( $response );
@@ -80,7 +92,19 @@ class Rain_Effect_Loader {
 	protected function get_attachment_id( $url ) {
 		$attachment_id = 0;
 		$dir = wp_upload_dir();
-		if ( false !== strpos( $url, $dir['baseurl'] . '/' ) ) { // Is URL in uploads directory?
+
+		if ( strpos( $url, 'https' ) === 0 ){
+			// if url starts with 'https'
+			$from = '/'.preg_quote( 'http', '/').'/';
+			$baseurl = strpos( $dir['baseurl'], 'https' ) !== 0 ? preg_replace( $from, 'https', $dir['baseurl'], 1) . '/'  : $dir['baseurl'];
+		} else if ( strpos( $url, 'http' ) === 0 ){
+			// if url starts with 'http'
+			$from = '/'.preg_quote( 'https', '/').'/';
+			// $baseurl = preg_replace( $from, 'http', $dir['baseurl'], 1) . '/' ;
+			$baseurl = strpos( $dir['baseurl'], 'https' ) !== 0 ? preg_replace( $from, 'http', $dir['baseurl'], 1) . '/'  : $dir['baseurl'];
+		}
+
+		if ( false !== strpos( $url, $baseurl ) ) { // Is URL in uploads directory?
 			$file = basename( $url );
 			$query_args = array(
 				'post_type'   => 'attachment',
