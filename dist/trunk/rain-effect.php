@@ -3,7 +3,7 @@
 Plugin Name: Rain Effect
 Plugin URI: http://example.com/rain-effect
 Description: Let it rain
-Version: 0.0.2
+Version: 0.0.3
 Author: jhotadhari
 Author URI: http://example.com/
 License: GNU General Public License v2 or later
@@ -24,7 +24,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 class Rain_Rain_effect {
 	
-	const VERSION = '0.0.1';
+	const VERSION = '0.0.3';
 	const DB_VERSION = 0;			// int	increase the number if the database needs an update
 	const PLUGIN_SLUG = 'rain-effect';
 	const PLUGIN_NAME = 'Rain Effect';

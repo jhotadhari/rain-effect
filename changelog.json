@@ -2,10 +2,14 @@
   "next": [
     ""
   ],
+  "0.0.3": [
+    "- fix: works on secure sites now;",
+    "- updated plugin environment to match generator-pluginboilerplate 1.2.2;"
+  ],
   "0.0.2": [
-    "fix: thumbnail ajax request for non logged in users"
+    "fix: thumbnail ajax request for non logged in users;"
   ],
   "0.0.1": [
-    "first working version"
+    "first working version;"
   ]
 }
