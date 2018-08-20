@@ -2,6 +2,10 @@
   "next": [
     ""
   ],
+  "0.0.4": [
+    "- works with polylang: The ajax request for thumbnail -> added lang query attribute including all languages;",
+    "- gutenberg support: works with gutenberg image block and additional css-class 'rain-effect'"
+  ],
   "0.0.3": [
     "- fix: works on secure sites now;",
     "- updated plugin environment to match generator-pluginboilerplate 1.2.2;"

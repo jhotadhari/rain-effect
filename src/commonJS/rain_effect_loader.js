@@ -250,7 +250,7 @@ class RainImage {
 			let y = event.pageY - scrollPosTop;
 
 			this.renderer.parallaxX = ((x/this.canvas.width)*2)-1;
-			this.renderer.parallaxY = ((y/this.canvas.height)*2)-1;
+			this.renderer.parallaxY = ((y/this.canvas.height)*2)-2;
 
 		}
 	}
@@ -262,7 +262,10 @@ $(document).ready(function(){
 
 	$( window ).load(function(){
 
-		let rainImages = $('img.rain-effect');
+		let rainImages = $('img.rain-effect, .wp-block-image.rain-effect img');
+
+
+
 		rainImages.each( function( index ){
 			let rainImage = new RainImage( this );
 		});

@@ -13,7 +13,7 @@ Apply a rain effect to your images using WebGL.
 
 = Thanks for beautiful ressoucres
 * The effect is based on [Lucas Bebbers](http://gardenestudio.com.br/) script on [Codrops](https://tympanus.net/codrops/2015/11/04/rain-water-effect-experiments/). Find it on [GitHub](https://github.com/codrops/RainEffect).
-* This Plugin is generated with [generator-pluginboilerplate version 1.0.3](https://github.com/jhotadhari/generator-pluginboilerplate)
+* This Plugin is generated with [generator-pluginboilerplate version 1.2.2](https://github.com/jhotadhari/generator-pluginboilerplate)
 
 
 == Installation ==

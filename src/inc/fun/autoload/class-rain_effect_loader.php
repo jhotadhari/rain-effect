@@ -21,7 +21,7 @@ class Rain_Effect_Loader {
 		add_action( 'wp_ajax_nopriv_rain_thumbnail', array( $this, 'ajax_thumbnail' ) );
 	}
 
-	protected function hook_scripts(){
+	public function hook_scripts(){
 		add_action( 'customize_preview_init', array( $this, 'apply_effect' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'apply_effect' ) );
 	}
@@ -104,6 +104,7 @@ class Rain_Effect_Loader {
 			$baseurl = strpos( $dir['baseurl'], 'https' ) !== 0 ? preg_replace( $from, 'http', $dir['baseurl'], 1) . '/'  : $dir['baseurl'];
 		}
 
+
 		if ( false !== strpos( $url, $baseurl ) ) { // Is URL in uploads directory?
 			$file = basename( $url );
 			$query_args = array(
@@ -118,6 +119,13 @@ class Rain_Effect_Loader {
 					),
 				)
 			);
+
+			// polylang support
+			if ( function_exists( 'pll_languages_list' ) ) {
+				$languages = pll_languages_list( 'slug' );
+				$query_args['lang'] = implode( $languages, ',' );
+			}
+
 			$query = new WP_Query( $query_args );
 			if ( $query->have_posts() ) {
 				foreach ( $query->posts as $post_id ) {

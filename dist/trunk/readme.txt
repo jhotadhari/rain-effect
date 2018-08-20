@@ -27,7 +27,7 @@ Apply a rain effect to your images using WebGL.
 
 = Thanks for beautiful ressoucres
 * The effect is based on [Lucas Bebbers](http://gardenestudio.com.br/) script on [Codrops](https://tympanus.net/codrops/2015/11/04/rain-water-effect-experiments/). Find it on [GitHub](https://github.com/codrops/RainEffect).
-* This Plugin is generated with [generator-pluginboilerplate version 1.0.3](https://github.com/jhotadhari/generator-pluginboilerplate)
+* This Plugin is generated with [generator-pluginboilerplate version 1.2.2](https://github.com/jhotadhari/generator-pluginboilerplate)
 
 
 == Installation ==
@@ -45,6 +45,10 @@ And go to 'Appearance' -> 'Customize'
 This Plugin is still in early development. Reality might be in movement.
 
 == Changelog ==
+
+0.0.4
+- works with polylang: The ajax request for thumbnail -> added lang query attribute including all languages;
+- gutenberg support: works with gutenberg image block and additional css-class 'rain-effect'
 
 0.0.3
 - fix: works on secure sites now;
