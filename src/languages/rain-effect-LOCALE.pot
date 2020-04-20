@@ -13,75 +13,75 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../classes/Rain_Customizer.php:133
+#: ../classes/Rain_Customizer.php:134
 msgid "Use Rain Effect for Header Image"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:161
+#: ../classes/Rain_Customizer.php:162
 msgid "Footer Media"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:162
+#: ../classes/Rain_Customizer.php:163
 msgid "Customize the Footer"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:187
+#: ../classes/Rain_Customizer.php:188
 msgid "Footer Image"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:196, ../classes/Rain_Customizer.php:201
+#: ../classes/Rain_Customizer.php:197, ../classes/Rain_Customizer.php:202
 msgid "Select Footer Image"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:197
+#: ../classes/Rain_Customizer.php:198
 msgid "Change Footer Image"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:198
+#: ../classes/Rain_Customizer.php:199
 msgid "Remove"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:199
+#: ../classes/Rain_Customizer.php:200
 msgid "Default"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:200
+#: ../classes/Rain_Customizer.php:201
 msgid "No Footer Image selected"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:202
+#: ../classes/Rain_Customizer.php:203
 msgid "Choose Footer Image"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:225
+#: ../classes/Rain_Customizer.php:226
 msgid "Use Rain Effect for Footer Image"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:251
+#: ../classes/Rain_Customizer.php:252
 msgid "Hook the Footer Image into wp_footer."
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:252
+#: ../classes/Rain_Customizer.php:253
 msgid "You can also use the template tags:"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:285
+#: ../classes/Rain_Customizer.php:286
 msgid "Rain Effect"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:287
+#: ../classes/Rain_Customizer.php:288
 msgid "The rain effect script will be loaded when the option for the header or footer image is set on default."
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:288
+#: ../classes/Rain_Customizer.php:289
 msgid "The script will apply the effect on every element with class=\"rain-effect\"."
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:306
+#: ../classes/Rain_Customizer.php:307
 msgid "When to load rain effect script?"
 msgstr ""
 
-#: ../classes/Rain_Customizer.php:314
+#: ../classes/Rain_Customizer.php:315
 msgid "Load rain effect script everytime. Even when not applied for header or footer image."
 msgstr ""
 
@@ -89,6 +89,6 @@ msgstr ""
 msgid "rain-effect-something-missing ???"
 msgstr ""
 
-#: ../classes/Rain_Effect_Loader.php:69
+#: ../classes/Rain_Effect_Loader.php:70
 msgid "rain-effect-thumbnail-not-found ???"
 msgstr ""

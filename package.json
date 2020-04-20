@@ -5,7 +5,7 @@
   "uri": "https://github.com/jhotadhari/rain-effect",
   "textDomain": "rain-effect",
   "domainPath": "/languages",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Let it rain",
   "main": "index.js",
   "author": "jhotadhari",

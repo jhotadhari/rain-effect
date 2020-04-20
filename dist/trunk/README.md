@@ -1,6 +1,6 @@
 # Rain Effect #
-Tags: 
-Donate link: 
+**Tags:** rain,image  
+**Donate link:** https://waterproof-webdesign.info/donate  
 **Contributors:** [jhotadhari](https://profiles.wordpress.org/jhotadhari)  
 **Tested up to:** 4.9  
 **Requires at least:** 4.7  
@@ -31,32 +31,23 @@ Apply a rain effect to your images using WebGL.
 
 ###
 ## Installation ##
-* php 5.6
-* JavaScript needs to be enabled
-
-Upload and install this Plugin the same way you'd install any other plugin.
+Upload and install this Theme the same way you'd install any other Theme.
 And go to 'Appearance' -> 'Customize'
 
 
 ## Screenshots ##
 
+
 ## Upgrade Notice ##
 
-This Plugin is still in early development. Reality might be in movement.
+
+
+# 
 
 ## Changelog ##
 
-0.0.4
-- works with polylang: The ajax request for thumbnail -> added lang query attribute including all languages;
-- gutenberg support: works with gutenberg image block and additional css-class 'rain-effect'
+## 0.1.0 - 2020-04-20
+Update Dependencies
 
-0.0.3
-- fix: works on secure sites now;
-- updated plugin environment to match generator-pluginboilerplate 1.2.2;
-
-0.0.2
-fix: thumbnail ajax request for non logged in users;
-
-0.0.1
-first working version;
-
+### Changed
+- Updated to generator-wp-dev-env#0.14.2 ( wp-dev-env-grunt#0.9.7 wp-dev-env-frame#0.8.0 )
