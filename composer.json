@@ -1,5 +1,20 @@
 {
-	"name": "jhotadhari/rain-effect",
-	"description": "???",
-	"require": {}
+  "require": {},
+  "require-dev": {
+    "croox/wp-dev-env-frame": "0.8.0",
+    "composer/installers": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "0.5.0",
+    "wptrt/wpthemereview": "0.1.0"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/croox/wp-dev-env-frame"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "rain\\": "src/classes/"
+    }
+  }
 }
