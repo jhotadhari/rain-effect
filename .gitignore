@@ -3,17 +3,20 @@
 */**/*
 /*
 
-
 # include some root files
 !.gitignore
 !Gruntfile.js
 !package.json
+!package-lock.json
+!.eslintrc.json
 !bower.json
 !.bowerrc
 !composer.json
 !composer.lock
-!changelog.json
-!readme.md
+!CHANGELOG.md
+!.wde_nextRelease.json
+!README.md
+!rain-effect.php
 
 # include dir grunt
 !/grunt
@@ -32,15 +35,11 @@
 !dist/assets/**/*
 
 # ignore certain file patterns
-_test*
-*/**/_test*
-_del*
-*/**/_del*
+.DS_Store
+*/**/.DS_Store
 *.marks
 */**/*.marks
 *~
 */**/*~
 #*#
 */**/#*#
-
-
