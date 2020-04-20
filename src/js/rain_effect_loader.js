@@ -2,7 +2,6 @@
  * External dependencies
  */
 import $ from 'jquery';
-import _ from 'lodash';
 
 /**
  * Internal dependencies
@@ -14,10 +13,13 @@ import createCanvas from './rain_effect_loader/create-canvas';
 import times from './rain_effect_loader/times';
 import {random} from './rain_effect_loader/random';
 
+const getWindowWidth = () => window.innerWidth
+	|| document.documentElement.clientWidth
+	|| document.body.clientWidth;
+
 class RainImage {
 
 	constructor( el ) {
-
 		this.enabled = true;
 		this.el = el;
 		this.el = el;
@@ -31,7 +33,6 @@ class RainImage {
 
 		// load textures and start rain
 		this.loadTextures();
-
 	}
 
 	updateGeometrie(){
@@ -63,7 +64,6 @@ class RainImage {
 	}
 
 	updateCss(){
-
 		let style = document.defaultView.getComputedStyle(this.el, null);
 		this.$canvas.css({
 			float: style.float,
@@ -86,16 +86,28 @@ class RainImage {
 	}
 
 	loadTextures(){
+		const self = this;
 
-		var self = this;
+		const {
+			srcset,
+			src,
+		} = this.el;
+
+		const {
+			ajaxurl,
+			images: {
+				dropShine,
+				dropAlpha,
+				dropColor,
+			},
+		} = rain_effect_loader_data;
 
 		// get background img src
-		var srcBg;
-		if ( this.el.srcset ){
-
+		let srcBg = false;
+		if ( srcset ) {
 			// get the img srcset and build an array of objects { width: ..., src: ... }
-			let srcBgs  =  _.map( this.el.srcset.split(',').map( function( val, index ) {
-				return val.trim().split(' ').map( function( val, index ) {
+			let srcBgs  = srcset.split(',')
+				.map( ( val, index ) => val.trim().split(' ').map( ( val, index ) => {
 					if ( index === 0 ) {
 						return val;
 					} else if ( val.indexOf('w') ){
@@ -103,32 +115,33 @@ class RainImage {
 					} else {
 						return null;
 					}
-				});
-			}), function ( val, index){
-					return {
-						width: parseInt(val[1]),
-						src: val[0]
-					};
-			});
+				} ) )
+				.map( ( val, index ) => { return {
+					width: parseInt(val[1]),
+					src: val[0]
+				} } );
 
 			// filter the array for images smaller than window
-			let srcBgsFilterd = _.filter( srcBgs, function( val ){ return $( window ).width() >= val.width; });
+			const srcBgsFilterd = [...srcBgs].filter( val => getWindowWidth() >= val.width );
 
 			// take the largest image from filtered array, or smallest from array
+			let srcBgObj;
 			if ( srcBgsFilterd.length < 1 ) {
-				srcBg = _.min( srcBgs, function(val){ return val.width; }).src;
+				srcBgObj = [...srcBgs].reduce( ( p, v ) => ( p.width < v.width ? p : v ) );
 			} else {
-				srcBg = _.max( srcBgsFilterd , function(val){ return val.width; }).src;
+				srcBgObj = [...srcBgsFilterd].reduce( ( p, v ) => ( p.width > v.width ? p : v ) );
 			}
+			srcBg = srcBgObj && srcBgObj.src ? srcBgObj.src : false;
+		}
 
-		} else {
-			srcBg = this.el.src;
+		if ( ! srcset || ! srcBg ) {
+			srcBg = src;
 		}
 
 		// get foreground img src, load images and start rain
-		$.post( rain_effect_loader_data.ajaxurl, {
+		$.post( ajaxurl, {
 			'action': 'rain_thumbnail',
-			'srcFull': this.el.src
+			'srcFull': src
 		} ).done( function( response ){
 
 			response = $.parseJSON( response );
@@ -137,9 +150,9 @@ class RainImage {
 			loadImages([
 				{ name:'foreground', src: response.srcThumbnail },
 				{ name:'background', src: srcBg },
-				{ name:'dropShine', src: rain_effect_loader_data.images.dropShine },
-				{ name:'dropAlpha', src: rain_effect_loader_data.images.dropAlpha },
-				{ name:'dropColor', src: rain_effect_loader_data.images.dropColor },
+				{ name:'dropShine', src: dropShine },
+				{ name:'dropAlpha', src: dropAlpha },
+				{ name:'dropColor', src: dropColor },
 			]).then( ( images ) => {
 				self.textures = images;
 				self.startRain( );
@@ -204,47 +217,52 @@ class RainImage {
 	}
 
 	setupEvents(){
-		var self = this;
 
-		// scroll
-		document.addEventListener( 'scroll', ( event ) => {
-			this.updateGeometrie();
-			this.updateViewport();
-			this.renderer.inView = this.inView;
-			this.raindrops.inView = this.inView;
-		});
+		// debounced window scroll event
+		let timeoutScroll = false;
+		document.addEventListener( 'scroll', () => {
+			clearTimeout( timeoutScroll );
+			timeoutScroll = setTimeout( () => {
+				this.updateGeometrie();
+				this.updateViewport();
+				this.renderer.inView = this.inView;
+				this.raindrops.inView = this.inView;
+			}, 100 );
+		} );
 
-		// resize
-		let resizeDebounce = _.debounce(function() {
-			self.updateCss();
-		}, 100);
-		window.addEventListener('resize', resizeDebounce );
-		window.addEventListener('resize', ( event ) => {
-			this.updateGeometrie();
-			this.updateViewport();
-		});
+		// debounced window resize event
+		let timeoutResize = false;
+		window.addEventListener( 'resize', () => {
+			clearTimeout( timeoutResize );
+			timeoutResize = setTimeout( () => {
+				this.updateCss();
+				this.updateGeometrie();
+				this.updateViewport();
+			}, 100 );
+		} );
 
 		// mousemove
 		document.addEventListener('mousemove',(event)=>{
 			this.setupParallax(event);
 		});
 
-		// customizer
-		if ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh ) {
-			wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function( partial ) {
-				if ( ! document.contains( self.el ) && self.enabled ){
-					_.each( partial.container, function(element, index, list){
-						$( element ).find('img.rain-effect').each( function( index ){
-							$( this ).load(function(){
-								let rainImage = new RainImage( this, index );
-								self.enabled = false;
-							});
-						});
-					});
-				}
-			} );
-		}
-
+		// // ??? TODO FIX THIS
+		// // customizer
+		// var self = this;
+		// if ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh ) {
+		// 	wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function( partial ) {
+		// 		if ( ! document.contains( self.el ) && self.enabled ){
+		// 			each( partial.container, function(element, index, list){
+		// 				$( element ).find('img.rain-effect:not(.no-rain)').each( function( index ){
+		// 					$( this ).load(function(){
+		// 						let rainImage = new RainImage( this, index );
+		// 						self.enabled = false;
+		// 					});
+		// 				});
+		// 			});
+		// 		}
+		// 	} );
+		// }
 	}
 
 	setupParallax(event){
@@ -265,15 +283,10 @@ class RainImage {
 
 
 $(document).ready(function(){
-
 	$( window ).load(function(){
-
-		let rainImages = $('img.rain-effect, .wp-block-image.rain-effect img');
-
+		let rainImages = $('img.rain-effect:not(.no-rain), .wp-block-image.rain-effect:not(.no-rain) img');
 		rainImages.each( function( index ){
 			let rainImage = new RainImage( this );
 		});
-
 	});
-
 });

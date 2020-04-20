@@ -42,7 +42,6 @@ class Rain_Effect_Loader {
 			),
 			'deps'		=> array(
 				'jquery',
-				'underscore',
 				// 'wp-hooks',
 				// 'wp-api',
 				// 'wp-data',
@@ -64,19 +63,6 @@ class Rain_Effect_Loader {
 			$this->_ajax_return( new \WP_Error( 'rain-effect-something-missing', __( 'rain-effect-something-missing ???', 'rain-effect' ) ) );
 
 		$url = $_POST['srcFull'];
-
-
-		// ??? debug
-		ob_start();
-		// print('<pre>');
-		print_r( 'url ' );
-		print_r( $url );
-		print_r( PHP_EOL );
-		// var_dump( $test );
-		// print('</pre>');
-		$out_blabla = ob_get_clean();
-		error_log( $out_blabla );
-		// die( $out_blabla );
 
 		$attachment_id = $this->get_attachment_id( $url );
 
