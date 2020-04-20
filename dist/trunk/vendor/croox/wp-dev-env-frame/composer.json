@@ -1,0 +1,19 @@
+{
+    "name": "croox/wp-dev-env-frame",
+    "homepage": "https://github.com/croox/wp-dev-env-frame",
+    "description": "some frame for wp-dev-env",
+    "version": "0.8.0",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "jhotadhari",
+            "email": "tellme@waterproof-webdesign.info"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"croox\\wde\\": "src"
+		}
+	}
+}

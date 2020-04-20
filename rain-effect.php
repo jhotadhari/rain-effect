@@ -3,7 +3,7 @@
 	Plugin Name: Rain Effect
 	Plugin URI: https://github.com/jhotadhari/rain-effect
 	Description: Let it rain
-	Version: 0.0.4
+	Version: 0.1.0
 	Author: jhotadhari
 	Author URI: https://waterproof-webdesign.info
 	License: GNU General Public License v2 or later
