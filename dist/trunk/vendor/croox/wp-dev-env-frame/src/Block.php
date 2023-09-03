@@ -7,6 +7,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+use croox\wde\utils\Arr;
+
 /**
  * Base class for Blocks. Registers a Block and enqueues the assets.
  * Don't forget to add the required `js` and `scss` files!
@@ -30,7 +32,11 @@ abstract class Block {
 	// Block type name excluding namespace
 	protected $name = '';
 
+	protected $attributes;
+
 	protected $handles = array();
+
+	protected $hook_priorities = array();
 
 	public static function get_instance() {
 		$class = get_called_class();
@@ -44,6 +50,7 @@ abstract class Block {
 	function __construct() {
 		$this->initialize();
 		$this->setup_handles();
+		$this->set_hook_priorities();
 		$this->hooks();
 	}
 
@@ -60,6 +67,8 @@ abstract class Block {
 		);
 
 		$this->project_class_name = '';			// Set the project class name!
+
+		$this->attributes = array();			// Define block attributes here and they'll be localized.
 	}
 
 	/**
@@ -80,18 +89,26 @@ abstract class Block {
 		);
 	}
 
+	protected function set_hook_priorities() {
+		$this->hook_priorities = array(
+			'style_admin'     => 10,
+			'script_admin'    => 10,
+			'style_frontend'  => 10,
+			'script_frontend' => 10,
+		);
+	}
+
 	/**
 	 * Initiate our hooks
 	 * @since  	0.7.0
 	 */
 	public function hooks() {
-
 		add_action( 'init', array( $this, 'register_block' ) );
 
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_style_admin' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_script_admin' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script_frontend' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style_frontend' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_style_admin' ), Arr::get( $this->hook_priorities, 'style_admin', 10 ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_script_admin' ), Arr::get( $this->hook_priorities, 'script_admin', 10 ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style_frontend' ), Arr::get( $this->hook_priorities, 'style_frontend', 10 ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script_frontend' ), Arr::get( $this->hook_priorities, 'script_frontend', 10 ) );
 	}
 
 	/**
@@ -108,20 +125,29 @@ abstract class Block {
 
 			$args = array();
 
-			if ( $this->get_handle( 'script_admin' ) )
-				$args = array_merge( $args, array( 'editor_script' => $this->get_handle( 'script_admin' ) ) );
+			if ( $handle = Arr::get( $this->handles, 'script_admin', false ) )
+				$args = array_merge( $args, array( 'editor_script' => $handle ) );
 
-			if ( $this->get_handle( 'style_admin' ) )
-				$args = array_merge( $args, array( 'editor_style' => $this->get_handle( 'style_admin' ) ) );
+			if ( $handle = Arr::get( $this->handles, 'style_admin', false ) )
+				$args = array_merge( $args, array( 'editor_style' => $handle ) );
 
-			if ( $this->get_handle( 'script_frontend' ) )
-				$args = array_merge( $args, array( 'script' => $this->get_handle( 'script_frontend' ) ) );
+			if ( $handle = Arr::get( $this->handles, 'script_frontend', false ) )
+				$args = array_merge( $args, array( 'script' => $handle ) );
 
-			if ( $this->get_handle( 'style_frontend' ) )
-				$args = array_merge( $args, array( 'style' => $this->get_handle( 'style_frontend' ) ) );
+			if ( $handle = Arr::get( $this->handles, 'style_frontend', false ) )
+				$args = array_merge( $args, array( 'style' => $handle ) );
 
 			if ( method_exists( $this, 'render' ) )
 				$args = array_merge( $args, array( 'render_callback' => array( $this, 'render' ) ) );
+
+			if ( property_exists( $this, 'attributes' ) && $this->attributes && ! empty( $this->attributes ) )
+				$args = array_merge( $args, array( 'attributes' => $this->attributes ) );
+
+			if ( property_exists( $this, 'supports' ) && $this->supports && ! empty( $this->supports ) ) {
+				$args = array_merge( $args, array( 'supports' => $this->supports ) );
+			} else {
+				$args = array_merge( $args, array( 'supports' => array() ) );
+			}
 
 			register_block_type( $block_type_name, $args );
 		}
@@ -135,21 +161,19 @@ abstract class Block {
 	 * @since  	0.7.0
 	 */
 	public function enqueue_script_admin() {
-		$handle = $this->get_handle( 'script_admin' );
+		$handle = Arr::get( $this->handles, 'script_admin', false );
 		if ( ! $handle || ! method_exists( $this->project_class_name, 'register_script' ) )
 			return;
-		$this->project_class_name::get_instance()->register_script( array(
+
+		$args = array(
 			'handle'		=> $handle,
-			'deps'			=> array(
-				'wp-blocks',
-				'wp-i18n',
-				'wp-element',
-				'wp-edit-post'
-			),
-			// 'localize_data'	=> array(),
+			'deps'			=> $this->get_script_deps_editor(),
 			'in_footer'		=> true,
 			'enqueue'		=> true,
-		) );
+			'localize_data'	=> $this->get_localize_data_editor(),
+		);
+
+		$this->project_class_name::get_instance()->register_script( $args );
 	}
 
 	/**
@@ -160,13 +184,13 @@ abstract class Block {
 	 * @since  	0.7.0
 	 */
 	public function enqueue_script_frontend() {
-		$handle = $this->get_handle( 'script_frontend' );
+		$handle = Arr::get( $this->handles, 'script_frontend', false );
 		if ( ! $handle || ! method_exists( $this->project_class_name, 'register_script' ) )
 			return;
 		$this->project_class_name::get_instance()->register_script( array(
 			'handle'		=> $handle,
-			// 'deps'			=> array(),
-			// 'localize_data'	=> array(),
+			'deps'			=> $this->get_script_deps_frontend(),
+			'localize_data'	=> $this->get_localize_data_frontend(),
 			'in_footer'		=> true,
 			'enqueue'		=> true,
 		) );
@@ -180,13 +204,13 @@ abstract class Block {
 	 * @since  	0.7.0
 	 */
 	public function enqueue_style_admin() {
-		$handle = $this->get_handle( 'style_admin' );
+		$handle = Arr::get( $this->handles, 'style_admin', false );
 		if ( ! $handle || ! method_exists( $this->project_class_name, 'register_style' ) )
 			return;
 
 		$this->project_class_name::get_instance()->register_style( array(
 			'handle'	=> $handle,
-			'deps'		=> array( 'wp-edit-blocks' ),
+			'deps'		=> $this->get_style_deps_editor(),
 			// 'media'		=> 'all',
 			'enqueue'	=> true,
 		) );
@@ -200,27 +224,68 @@ abstract class Block {
 	 * @since  	0.7.0
 	 */
 	public function enqueue_style_frontend() {
-		$handle = $this->get_handle( 'style_frontend' );
+		$handle = Arr::get( $this->handles, 'style_frontend', false );
 		if ( ! $handle || ! method_exists( $this->project_class_name, 'register_style' ) )
 			return;
 
 		$this->project_class_name::get_instance()->register_style( array(
 			'handle'	=> $handle,
-			// 'deps'		=> array(),
+			'deps'		=> $this->get_style_deps_frontend(),
 			// 'media'		=> 'all',
 			'enqueue'	=> true,
 		) );
 	}
 
-	/**
-	 * @since  	0.7.0
-	 */
-	protected function get_handle( $key ) {
-		$handles = $this->handles;
-		if ( array_key_exists( $key, $handles ) ) {
-			return $handles[$key];
+	protected function get_script_deps_editor( $deps = array() ) {
+		$prefix = $this->project_class_name::get_instance()->prefix;
+
+		$deps = array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-edit-post'
+		);
+
+		return apply_filters( "{$prefix}_block_{$this->name}_script_deps_editor", $deps );
+	}
+
+	protected function get_localize_data_editor( $localize_data = array() ) {
+		$prefix = $this->project_class_name::get_instance()->prefix;
+
+		if ( property_exists( $this, 'attributes' ) && $this->attributes && ! empty( $this->attributes ) ) {
+			$localize_data = array_merge( $localize_data, array( 'attributes'	=> $this->attributes ) );
 		}
-		return false;
+
+		if ( property_exists( $this, 'supports' ) && $this->supports && ! empty( $this->supports ) ) {
+			$localize_data = array_merge( $localize_data, array( 'supports'	=> $this->supports ) );
+		} else {
+			$localize_data = array_merge( $localize_data, array( 'supports'	=> array() ) );
+		}
+
+		return apply_filters( "{$prefix}_block_{$this->name}_localize_data_editor", $localize_data );
+	}
+
+	protected function get_script_deps_frontend( $deps = array() ) {
+		$prefix = $this->project_class_name::get_instance()->prefix;
+		return apply_filters( "{$prefix}_block_{$this->name}_script_deps_frontend", $deps );
+	}
+
+	protected function get_localize_data_frontend( $localize_data = array() ) {
+		$prefix = $this->project_class_name::get_instance()->prefix;
+		return apply_filters( "{$prefix}_block_{$this->name}_localize_data_frontend", $localize_data );
+	}
+
+	protected function get_style_deps_editor( $deps = array() ) {
+		$prefix = $this->project_class_name::get_instance()->prefix;
+		$deps = array(
+			'wp-edit-blocks'
+		);
+		return apply_filters( "{$prefix}_block_{$this->name}_style_deps_editor", $deps );
+	}
+
+	protected function get_style_deps_frontend( $deps = array() ) {
+		$prefix = $this->project_class_name::get_instance()->prefix;
+		return apply_filters( "{$prefix}_block_{$this->name}_style_deps_frontend", $deps );
 	}
 
 	/**

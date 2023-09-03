@@ -178,7 +178,7 @@ class Color {
 
 	/**
 	 * Build inline css for background gradients.
-	 * Generic classes for each itme in editor_gradient_presets
+	 * Generic classes for each item in editor_gradient_presets
 	 *
 	 * @since 0.8.0
 	 * @param array	$editor_gradient_presets	As used with add_theme_support 'editor-gradient-presets'

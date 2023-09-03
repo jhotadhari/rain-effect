@@ -80,15 +80,51 @@ abstract class Project {
 
 	protected function init_options() {
 		update_option( $this->prefix . '_version', $this->version );
-		add_option( $this->prefix . '_db_version', $this->db_version );
+		update_option( $this->prefix . '_db_version', $this->db_version );
 	}
 
-	// check DB_VERSION and require the update class if necessary
+	/**
+	 * Compare project version and db_version with the versions stored in db.
+	 * Update the versions in db, if all updating routines are successful.
+	 * Allows to hook updating routines via filter functions.
+	 */
 	protected function maybe_update() {
-		if ( get_option( $this->prefix . '_db_version' ) < $this->db_version ) {
-			// require_once( $this->dir_path . 'inc/class-' . $this->prefix . '_update.php' );
-			// new Update();
-			// class Update is missing ??? !!!
+		$old_version = get_option( $this->prefix . '_version' );
+		$new_version = $this->version;
+		if ( 0 != version_compare( $old_version, $new_version ) ) {
+			/**
+			 * Allows to run an update when project version is different to the project version stored in db.
+			 *
+			 * The add_filter function should be hooked in the projects initialize method.
+			 *
+			 * @param 	boolean 	$success 		Whether the update was successful and the new version should be stored in db.
+			 * @param 	string 		$new_version 	The new project version.
+			 * @param 	string 		$old_version 	The old project version that is stored in db.
+			 *
+			 * @return 	boolean 	$success
+			 */
+			if ( apply_filters( $this->prefix . '_update_version', true, $new_version, $old_version ) ) {
+				update_option( $this->prefix . '_version', $this->version );
+			}
+		}
+
+		$old_db_version = get_option( $this->prefix . '_db_version' );
+		$new_db_version = $this->db_version;
+		if ( $old_db_version != $new_db_version ) {
+			/**
+			 * Allows to run an update when project db_version is different to the project db_version stored in db.
+			 *
+			 * The add_filter function should be hooked in the projects initialize method.
+			 *
+			 * @param 	boolean 	$success 		Whether the update was successful and the new db_version should be stored in db.
+			 * @param 	string 		$new_db_version The new project db_version.
+			 * @param 	string 		$old_db_version The old project db_version that is stored in db.
+			 *
+			 * @return 	boolean 	$success
+			 */
+			if ( apply_filters( $this->prefix . '_update_db_version', true, $new_db_version, $old_db_version ) ) {
+				update_option( $this->prefix . '_db_version', $this->db_version );
+			}
 		}
 	}
 
@@ -153,14 +189,20 @@ abstract class Project {
 
 			// maybe set deactivate_notice and return false
 			if ( count( $error_msgs ) > 0 ) {
+				$error_msgs = array_map( function( $index ) use ( $error_msgs ) {
+					if ( count( $error_msgs ) - 1 == $index ) {
+						return $error_msgs[$index] . '. ';
+					} else {
+						return $error_msgs[$index] . ', ';
+					}
+				}, array_keys( $error_msgs ) );
+
 				$this->deactivate_notice = implode(
 					'',
 					array(
 						'<h3>',
-						$this->name,
-						' ',
-						$this->project_kind,
-						' requires:</h3>',
+						sprintf( '%s %s requires: ', $this->name, $this->project_kind ),
+						'</h3>',
 						'<ul style="padding-left: 1em; list-style: inside disc;">',
 						'<li>',
 						implode( '</li><li>', $error_msgs ),
@@ -200,7 +242,7 @@ abstract class Project {
 			return $this->{$field};
 		}
 
-		throw new Exception( 'Invalid property: ' . $field );
+		throw new \Exception( 'Invalid property: ' . $field );
 	}
 
 	public function get_dir_url() {
@@ -267,38 +309,51 @@ abstract class Project {
 	abstract public function load_textdomain();
 
 	public function the_deactivate_notice() {
-		echo implode(
+		$notice = implode(
 			'',
 			array(
 				'<div class="notice error">',
 				$this->deactivate_notice,
-				'<p>The ',
-				$this->project_kind,
-				' will be deactivated.</p>',
+				'<p>',
+				sprintf(
+					'The %s will be deactivated.',
+					$this->project_kind
+				),
+				'</p>',
 				'</div>',
 			)
 		);
+		error_log( strip_tags( $notice ) );
+		echo $notice;
 	}
 
 	public function the_deactivate_error_notice() {
-		echo implode(
+		$notice = implode(
 			'',
 			array(
 				'<div class="notice error">',
 				$this->deactivate_notice,
-				'<p>An error occurred when deactivating the ',
-				$this->project_kind,
-				'. It needs to be deactivated manually.</p>',
+				'<p>',
+				sprintf(
+					'An error occurred when deactivating the %s. It needs to be deactivated manually.',
+					$this->project_kind
+				),
+				'</p>',
 				'</div>',
 			)
 		);
+		error_log( strip_tags( $notice ) );
+		echo $notice;
 	}
 
 	abstract public function activate();
 
 	abstract public function start();
 
-	abstract public function on_deactivate( $new_name, $new_theme, $old_theme );
+	// // Needs to be overwritten! But can't declare it here.
+	// // Themes will pass 3 args on switch_theme.
+	// // And Plugins will pass 0 args on register_deactivation_hook.
+	// abstract public function on_deactivate( $new_name, $new_theme, $old_theme );
 
 	abstract public function deactivate();
 

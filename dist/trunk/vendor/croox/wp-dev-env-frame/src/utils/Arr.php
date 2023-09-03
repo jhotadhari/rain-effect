@@ -21,7 +21,7 @@ class Arr {
 	 *
 	 * @since 0.1.0
 	 * @param array  $array      The array to query.
-	 * @param string $path       '.' separated path of the property to get.
+	 * @param string|array $path       Path array of the property to get. Or a string '.' separated.
 	 * @return mixed        $value      The resolved value
 	 */
 	public static function get( $array, $path, $default = null ) {
@@ -29,7 +29,7 @@ class Arr {
 			return $default;
 		}
 
-		$path_arr = explode( '.', $path );
+		$path_arr = is_array( $path ) ? $path : explode( '.', $path );
 
 		if ( ! array_key_exists( $path_arr[0], $array ) || ! isset( $array[ $path_arr[0] ] ) ) {
 			return $default;

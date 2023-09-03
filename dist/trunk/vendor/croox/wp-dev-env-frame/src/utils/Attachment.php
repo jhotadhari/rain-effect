@@ -51,7 +51,7 @@ class Attachment {
 		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}posts WHERE guid RLIKE %s;", $parsed_url[1] ) );
 
 		// Returns null if no attachment is found
-		return $attachment[0];
+		return empty( $attachment ) ? null : $attachment[0];
 	}
 
 	/**

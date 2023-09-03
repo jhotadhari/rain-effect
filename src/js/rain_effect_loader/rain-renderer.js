@@ -1,11 +1,7 @@
-import * as WebGL from "./webgl";
 import GL from "./gl-obj";
-import loadImages from "./image-loader";
 import createCanvas from "./create-canvas";
-let requireShaderScript = require("glslify");
-
-let vertShader = requireShaderScript('./shaders/simple.vert');
-let fragShader = requireShaderScript('./shaders/water.frag');
+import vertShader from "./shaders/simple.vert";
+import fragShader from "./shaders/water.frag";
 
 const defaultOptions={
   renderShadow:false,
@@ -18,7 +14,7 @@ const defaultOptions={
   parallaxFg:20
 };
 function RainRenderer(canvas,inView,canvasLiquid, imageFg, imageBg, imageShine=null,options={}){
-	
+
   this.canvas=canvas;
   this.inView=inView;
   this.canvasLiquid=canvasLiquid;
@@ -44,7 +40,7 @@ RainRenderer.prototype = {
   programBlurX:null,
   programBlurY:null,
   parallaxX:0,
-  parallaxY:0,              
+  parallaxY:0,
   renderShadow:false,
   options:null,
   init(){
