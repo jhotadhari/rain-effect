@@ -44,6 +44,81 @@ class Wpml {
 	}
 
 	/**
+	 * Get object_id for certain language or all languages.
+	 *
+	 * @param   string              $kind           The kind of an element: post or tax. Defaults to post.
+	 * @param   string              $type           Post_type or Taxonomy name. Defaults to post.
+	 * @param   int                 $id             Post or term id.
+	 * @param   string|false|null   $lang           Language code for target language.
+	 *                                              If null, retrieves current language.
+	 *                                              If false, retrieves all languages.
+	 * @param   string|null         $source_lang    If given and equals $lang, will skip everything and returns $id.
+	 * @return  int|array
+	 */
+	public static function get_translated_object_id( $kind = 'post', $type = 'post', $id = null, $lang = null, $source_lang = null ) {
+
+		// Skip, if $lang === $source_lang
+		if ( false !== $lang ) {
+			$lang = null === $lang
+				? apply_filters( 'wpml_current_language', null )
+				: $lang;
+			if ( $lang === $source_lang )
+				return $id;
+		}
+
+		$transient_handle = "wde_translated_object_id_{$kind}_{$type}_{$id}_" . ( false === $lang ? 'false' : $lang );
+		$transient = get_transient( $transient_handle );
+		if ( false !== $transient )
+			return $transient;
+
+		$transient_expire = 60 * 60 * 24 * 7;    // 1 week
+
+		// Allowed types tax|post
+		$kind = 'taxonomy' === $kind ? 'tax' : $kind;
+		if ( ! in_array( $kind, array( 'tax', 'post' ) ) )
+			return false;
+
+		// Id is required
+		if ( null == $id || 0 == $id )
+			return false;
+
+		// Get wpml trid
+		$element_type = $kind . '_' . $type;
+		$trid = apply_filters( 'wpml_element_trid', null, $id , $element_type );
+		if ( null === $trid )
+			return false;
+
+		// Get translations
+		$translations = apply_filters( 'wpml_get_element_translations', null, $trid, $element_type );
+
+		if ( false === $lang ) { // retrieve all languages
+			$transient = array_combine(
+				array_keys( $translations ),
+				array_map( function( $translation ) {
+					return intval( $translation->element_id, 10 );
+				}, $translations )
+			);
+			set_transient(
+				$transient_handle,
+				$transient,
+				$transient_expire
+			);
+			return $transient;
+		} else {                // retrieve one language
+			$translation = Arr::get( $translations, $lang, false );
+			$transient = $translation
+				? intval( $translation->element_id, 10 )
+				: false;
+			set_transient(
+				$transient_handle,
+				$transient,
+				$transient_expire
+			);
+			return $transient;
+		}
+	}
+
+	/**
 	* Setup hooks to switch wpml global language for taxonomy and post rest requests.
 	*
 	* Hooks into taxonomy and post_type registration filter

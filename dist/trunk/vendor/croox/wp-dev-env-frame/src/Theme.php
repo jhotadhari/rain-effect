@@ -139,10 +139,10 @@ abstract class Theme extends Project {
 
 		delete_option( $option_key );
 
+		do_action( $this->prefix . '_on_deactivate_before_flush' );
 		flush_rewrite_rules();
 		do_action( $this->prefix . '_theme_deactivated' );
 	}
-
 
 	public function deactivate() {
 		$default = wp_get_theme( WP_DEFAULT_THEME );

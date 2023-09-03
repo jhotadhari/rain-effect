@@ -1,7 +1,7 @@
 # Rain Effect #
 **Tags:** rain,image  
 **Donate link:** https://waterproof-webdesign.info/donate  
-**Contributors:** [jhotadhari](https://profiles.wordpress.org/jhotadhari)  
+**Contributors:** [jhotadhari](https://profiles.wordpress.org/jhotadhari/)  
 **Tested up to:** 4.9  
 **Requires at least:** 4.7  
 **Requires PHP:** 5.6  
@@ -43,8 +43,13 @@ And go to 'Appearance' -> 'Customize'
 
 
 # 
-
 ## Changelog ##
+
+## 0.1.1 - 2023-09-03
+Updated dependencies
+
+### Changed
+- Updated to generator-wp-dev-env#1.6.8 ( wp-dev-env-grunt#1.6.2 wp-dev-env-frame#0.16.0 )
 
 ## 0.1.0 - 2020-04-20
 Update Dependencies
