@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.1.3 - 2023-09-03
+Fix didn't start raining
+
+### Fixed
+- Didn't start raining. Remove window on load event and just start when DOM is ready
+
 ## 0.1.2 - 2023-09-03
 Fix Rain_Effect_Loader
 

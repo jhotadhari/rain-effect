@@ -45,6 +45,12 @@ And go to 'Appearance' -> 'Customize'
 # 
 == Changelog ==
 
+## 0.1.3 - 2023-09-03
+Fix didn't start raining
+
+### Fixed
+- Didn't start raining. Remove window on load event and just start when DOM is ready
+
 ## 0.1.2 - 2023-09-03
 Fix Rain_Effect_Loader
 
