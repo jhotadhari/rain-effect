@@ -281,12 +281,9 @@ class RainImage {
 
 }
 
-
-$(document).ready(function(){
-	$( window ).load(function(){
-		let rainImages = $('img.rain-effect:not(.no-rain), .wp-block-image.rain-effect:not(.no-rain) img');
-		rainImages.each( function( index ){
-			let rainImage = new RainImage( this );
-		});
+$(function(){
+	let rainImages = $('img.rain-effect:not(.no-rain), .wp-block-image.rain-effect:not(.no-rain) img');
+	rainImages.each( function( index ){
+		let rainImage = new RainImage( this );
 	});
 });
