@@ -3,7 +3,7 @@
 	Plugin Name: Rain Effect
 	Plugin URI: https://github.com/jhotadhari/rain-effect
 	Description: Let it rain
-	Version: 0.1.0
+	Version: 0.1.1
 	Author: jhotadhari
 	Author URI: https://waterproof-webdesign.info
 	License: GNU General Public License v2 or later
@@ -31,7 +31,7 @@ include_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
 function rain_init() {
 
 	$init_args = array(
-		'version'		=> '0.1.0',
+		'version'		=> '0.1.1',
 		'slug'			=> 'rain-effect',
 		'name'			=> 'Rain Effect',
 		'prefix'		=> 'rain',
@@ -40,9 +40,9 @@ function rain_init() {
 		'FILE_CONST'	=> __FILE__,
 		'db_version'	=> 0,
 		'wde'			=> array(
-			'generator-wp-dev-env'	=> '0.14.2',
-			'wp-dev-env-grunt'		=> '0.9.7',
-			'wp-dev-env-frame'		=> '0.8.0',
+			'generator-wp-dev-env'	=> '1.6.8',
+			'wp-dev-env-grunt'		=> '1.6.2',
+			'wp-dev-env-frame'		=> '0.16.0',
 		),
 		'deps'			=> array(
 			'php_version'	=> '5.6',		// required php version
