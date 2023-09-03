@@ -1,6 +1,6 @@
 WordPress Plugin Rain Effect
 
-This is a beautiful plugin
+Let it rain
 
 > Plugin readme: [./dist/trunk/README.md](https://github.com/jhotadhari/rain-effect/tree/master/dist/trunk)
 
@@ -45,6 +45,7 @@ grunt build
 - `git`
 - `grunt`  and  `grunt-cli`
 - `rsync`
+- `gettext`
 - `convert` from ImageMagick. Tested with ImageMagick `6.8.9-9`
 
 # Support and feedback
