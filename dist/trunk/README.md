@@ -45,6 +45,9 @@ And go to 'Appearance' -> 'Customize'
 # 
 ## Changelog ##
 
+## 0.1.2 - 2023-09-03
+Fix Rain_Effect_Loader
+
 ## 0.1.1 - 2023-09-03
 Updated dependencies
 
