@@ -1,10 +1,12 @@
 {
-  "require": {},
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.6"
+  },
   "require-dev": {
-    "croox/wp-dev-env-frame": "0.8.0",
-    "composer/installers": "*",
-    "dealerdirect/phpcodesniffer-composer-installer": "0.5.0",
-    "wptrt/wpthemereview": "0.1.0"
+    "croox/wp-dev-env-frame": "0.16.0",
+    "composer/installers": "*"
   },
   "repositories": [
     {
@@ -15,6 +17,11 @@
   "autoload": {
     "psr-4": {
       "rain\\": "src/classes/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
     }
   }
 }
