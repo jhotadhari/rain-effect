@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e2379b10cd735a39602b490e6f9ffdd",
+    "content-hash": "a6e9ee4d4b78c359974575531070bc70",
     "packages": [],
     "packages-dev": [
         {
@@ -154,16 +154,16 @@
         },
         {
             "name": "croox/wp-dev-env-frame",
-            "version": "0.16.0",
+            "version": "0.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/croox/wp-dev-env-frame.git",
-                "reference": "1cc09a29b07b0acb87556f4fc3528b853d01c85c"
+                "reference": "930abe20002c3ff25134ee072ec2b3ea32497412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/croox/wp-dev-env-frame/zipball/1cc09a29b07b0acb87556f4fc3528b853d01c85c",
-                "reference": "1cc09a29b07b0acb87556f4fc3528b853d01c85c",
+                "url": "https://api.github.com/repos/croox/wp-dev-env-frame/zipball/930abe20002c3ff25134ee072ec2b3ea32497412",
+                "reference": "930abe20002c3ff25134ee072ec2b3ea32497412",
                 "shasum": ""
             },
             "type": "library",
@@ -184,10 +184,10 @@
             "description": "some frame for wp-dev-env",
             "homepage": "https://github.com/croox/wp-dev-env-frame",
             "support": {
-                "source": "https://github.com/croox/wp-dev-env-frame/tree/0.16.0",
+                "source": "https://github.com/croox/wp-dev-env-frame/tree/0.17.1",
                 "issues": "https://github.com/croox/wp-dev-env-frame/issues"
             },
-            "time": "2023-06-26T17:24:33+00:00"
+            "time": "2026-08-13T22:56:29+00:00"
         }
     ],
     "aliases": [],
