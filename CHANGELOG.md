@@ -11,9 +11,6 @@ Update to current stack and PHP 8.2
 - Updated to wp-dev-env-frame#0.17.1 and wp-dev-env-grunt#1.7.2
 - PHP 8.2 compatibility (frame 0.17.1)
 
-## 0.1.4 - 2026-09-08
-Update deps, PHP 8.2 compat
-
 ## 0.1.3 - 2023-09-03
 Fix didn't start raining
 
