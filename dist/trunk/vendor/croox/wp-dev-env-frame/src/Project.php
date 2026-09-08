@@ -12,6 +12,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+#[AllowDynamicProperties]
 abstract class Project {
 
 	private static $_instances = array();
@@ -37,6 +38,7 @@ abstract class Project {
 	protected $name       = '';
 	protected $prefix     = '';
 	protected $textdomain     = '';
+	protected $wde            = array();
 
 	protected $project_kind      = '';
 	protected $deactivate_notice = '';
@@ -50,18 +52,21 @@ abstract class Project {
 
 	function __construct( $init_args = array() ) {
 
+		$deps_args = utils\Arr::get( $init_args, 'deps', array() );
+		$deps_args = is_array( $deps_args ) ? $deps_args : array();
+
 		$deps = array(
-			'plugins' => array_key_exists( 'plugins', $init_args['deps'] ) && is_array( $init_args['deps']['plugins'] )
-				? $init_args['deps']['plugins']
+			'plugins' => array_key_exists( 'plugins', $deps_args ) && is_array( $deps_args['plugins'] )
+				? $deps_args['plugins']
 				: array(),
-			'php_ext' => array_key_exists( 'php_ext', $init_args['deps'] ) && is_array( $init_args['deps']['php_ext'] )
-				? $init_args['deps']['php_ext']
+			'php_ext' => array_key_exists( 'php_ext', $deps_args ) && is_array( $deps_args['php_ext'] )
+				? $deps_args['php_ext']
 				: array(),
 		);
-		if ( array_key_exists( 'php_version', $init_args['deps'] ) && is_string( $init_args['deps']['php_version'] ) )
-			$deps['php_version'] = $init_args['deps']['php_version'];
-		if ( array_key_exists( 'wp_version', $init_args['deps'] ) && is_string( $init_args['deps']['wp_version'] ) )
-			$deps['wp_version'] = $init_args['deps']['wp_version'];
+		if ( array_key_exists( 'php_version', $deps_args ) && is_string( $deps_args['php_version'] ) )
+			$deps['php_version'] = $deps_args['php_version'];
+		if ( array_key_exists( 'wp_version', $deps_args ) && is_string( $deps_args['wp_version'] ) )
+			$deps['wp_version'] = $deps_args['wp_version'];
 
 		$this->deps       	= $deps;
 		$this->version    	= utils\Arr::get( $init_args, 'version', '' );
@@ -135,8 +140,9 @@ abstract class Project {
 			$error_msgs = array();
 
 			// check php version
-			if ( version_compare( PHP_VERSION, $this->deps['php_version'], '<' ) ) {
-				$err_msg = sprintf( 'PHP version %s or higher', $this->deps['php_version'] );
+			$required_php_version = utils\Arr::get( $this->deps, 'php_version', '' );
+			if ( $required_php_version && version_compare( PHP_VERSION, $required_php_version, '<' ) ) {
+				$err_msg = sprintf( 'PHP version %s or higher', $required_php_version );
 				array_push( $error_msgs, $err_msg );
 			}
 
@@ -157,8 +163,9 @@ abstract class Project {
 			// check wp version
 			// include an unmodified $wp_version
 			include ABSPATH . WPINC . '/version.php';
-			if ( version_compare( $wp_version, $this->deps['wp_version'], '<' ) ) {
-				$err_msg = sprintf( 'WordPress version %s or higher', $this->deps['wp_version'] );
+			$required_wp_version = utils\Arr::get( $this->deps, 'wp_version', '' );
+			if ( $required_wp_version && version_compare( $wp_version, $required_wp_version, '<' ) ) {
+				$err_msg = sprintf( 'WordPress version %s or higher', $required_wp_version );
 				array_push( $error_msgs, $err_msg );
 			}
 

@@ -265,7 +265,7 @@ abstract class Register_Post_Meta {
 	 * @since 0.5.0
 	 */
 	protected function field_update__serialized( $value, $object, $field_name ) {
-		if ( json_decode( $value, true ) === null ) {
+		if ( null === $value || null === json_decode( $value, true ) ) {
 			error_log( 'Meta value for field ' . $field_name . ' is not valid json.' );
 			error_log( 'Meta value: ' . var_dump( $value ) );
 			return false;

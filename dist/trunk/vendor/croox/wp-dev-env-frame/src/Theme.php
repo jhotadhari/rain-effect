@@ -87,7 +87,7 @@ abstract class Theme extends Project {
 
 		$this->auto_include();
 
-		add_action( 'after_setup_theme', array( $this, 'load_textdomain' ) );
+		add_action( 'init', array( $this, 'load_textdomain' ) );
 		$this->register_post_types_and_taxs();
 		$this->add_roles_and_capabilities();
 		$this->maybe_update();

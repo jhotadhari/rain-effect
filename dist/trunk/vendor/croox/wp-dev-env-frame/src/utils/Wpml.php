@@ -36,6 +36,7 @@ class Wpml {
 		} else {
 			$return = array();
 			$translations = apply_filters( 'wpml_get_element_translations', NULL, $trid, $element_type );
+			$translations = is_array( $translations ) ? $translations : array();
 			foreach( $translations as $lang => $translation ) {
 				$return[$lang] = update_post_meta( $translation->element_id, $meta_key, $meta_value );
 			}
@@ -90,6 +91,8 @@ class Wpml {
 
 		// Get translations
 		$translations = apply_filters( 'wpml_get_element_translations', null, $trid, $element_type );
+		if ( ! is_array( $translations ) || empty( $translations ) )
+			return false;
 
 		if ( false === $lang ) { // retrieve all languages
 			$transient = array_combine(
@@ -242,7 +245,8 @@ class Wpml {
 			) ),
 			'strlen'
 		) );
-		$is_admin = 'wp-admin' === $referer_path_arr[0];
+		$maybe_lang = ! empty( $referer_path_arr ) ? $referer_path_arr[0] : false;
+		$is_admin = 'wp-admin' === $maybe_lang;
 
 		if ( $is_admin || '3' === $language_negotiation_type) {
 			if ( ! array_key_exists( 'query', $referer_parsed ) )
@@ -261,7 +265,6 @@ class Wpml {
 		}
 
 		if ( '1' === $language_negotiation_type ) {
-			$maybe_lang = $referer_path_arr[0];
 			$active_langs = array_map( function( $lang ) {
 				return $lang['language_code'];
 			}, apply_filters( 'wpml_active_languages', NULL, array( 'skip_missing' => 0 ) ) );
