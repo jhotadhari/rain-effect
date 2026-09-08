@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 0.1.4 - 2026-09-08
-Update to current stack and PHP 8.2
+Update deps, PHP 8.2 compat
 
 ### Changed
 - Updated to wp-dev-env-frame#0.17.1 and wp-dev-env-grunt#1.7.2
