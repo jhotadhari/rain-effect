@@ -88,7 +88,7 @@ abstract class Plugin extends Project {
 
 	public function start() {
 		if ( $this->check_dependencies() ) {
-			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+			add_action( 'init', array( $this, 'load_textdomain' ) );
 			$this->register_post_types_and_taxs();
 			$this->maybe_update();  // I think mass a plugin update does not run activation hooks
 			add_action( 'plugins_loaded', array( $this, 'auto_include' ) );

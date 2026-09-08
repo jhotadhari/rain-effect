@@ -32,12 +32,18 @@ class Attachment {
 	 * @return int|null $attachment Returns an attachment ID, or null if no attachment is found
 	 */
 	public static function get_id_by_url( $url ) {
+		$url = is_string( $url ) ? $url : '';
+
 		// Split the $url into two parts with the wp-content directory as the separator
-		$parsed_url = explode( parse_url( WP_CONTENT_URL, PHP_URL_PATH ), $url );
+		$content_path = parse_url( WP_CONTENT_URL, PHP_URL_PATH );
+		$content_path = is_string( $content_path ) ? $content_path : '';
+		$parsed_url = explode( $content_path, $url );
 
 		// Get the host of the current site and the host of the $url, ignoring www
-		$this_host = str_ireplace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
-		$file_host = str_ireplace( 'www.', '', parse_url( $url, PHP_URL_HOST ) );
+		$home_host = parse_url( home_url(), PHP_URL_HOST );
+		$url_host  = parse_url( $url, PHP_URL_HOST );
+		$this_host = str_ireplace( 'www.', '', is_string( $home_host ) ? $home_host : '' );
+		$file_host = str_ireplace( 'www.', '', is_string( $url_host ) ? $url_host : '' );
 
 		// Return nothing if there aren't any $url parts or if the current host and $url host do not match
 		if ( ! isset( $parsed_url[1] ) || empty( $parsed_url[1] ) || ( $this_host != $file_host ) ) {
@@ -73,7 +79,7 @@ class Attachment {
 		$id = static::get_id_by_url( $url );
 
 		if ( is_int( $id ) ) {
-			$image = wp_get_attachment_image( $id, $size, $attr )[0];
+			$image = wp_get_attachment_image( $id, $size, false, $attr );
 		} else {
 			$attr = array_map( 'esc_attr', $attr );
 			$image = '<img';

@@ -25,6 +25,7 @@ use croox\wde\utils\Arr;
  * @package	wde
  * @since  	0.7.0
  */
+#[AllowDynamicProperties]
 abstract class Block {
 
 	private static $_instances = array();
@@ -32,7 +33,11 @@ abstract class Block {
 	// Block type name excluding namespace
 	protected $name = '';
 
+	protected $project_class_name = '';
+
 	protected $attributes;
+
+	protected $supports = array();
 
 	protected $handles = array();
 
